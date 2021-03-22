@@ -7,6 +7,7 @@ ERROR_CODE_VERIFY=31
 ERROR_CODE_ASSEMBLY=91
 CODE=0
 
+export ROOT_PATH=""
 export PIPELINE=buildSrc/src/main/resources/bash/pipeline
 
 /bin/bash $PIPELINE/before.sh || CODE=$?
@@ -28,7 +29,7 @@ if test $CODE -ne 0; then
   echo "Pipeline assembly error $CODE!"
   exit $ERROR_CODE_ASSEMBLY
 fi
-exit 1
+
 echo "pipeline success"
 
 exit 0

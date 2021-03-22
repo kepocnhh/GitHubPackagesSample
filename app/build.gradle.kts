@@ -72,7 +72,7 @@ setOf(
         doLast {
             val parent = File(buildDir, "libs")
             if (!parent.exists()) parent.mkdirs()
-            val file = File(parent, "${Maven.artifactId}-${version}.pom")
+            val file = File(parent, "${Maven.artifactId}-${versionName}.pom")
             if (file.exists()) file.delete()
             file.createNewFile()
             checkFileExists(file)

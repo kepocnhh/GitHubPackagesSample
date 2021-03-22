@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "tag test start..."
 
 REF=refs/tags/$TAG_NAME

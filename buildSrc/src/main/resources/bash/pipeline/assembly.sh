@@ -8,7 +8,7 @@ ERROR_CODE_SOURCES=1300
 ERROR_CODE_POM=1400
 CODE=0
 
-ASSEMBLY_PATH=/assembly
+ASSEMBLY_PATH="$ROOT_PATH/assembly"
 rm -rf $ASSEMBLY_PATH
 mkdir -p $ASSEMBLY_PATH
 
@@ -17,10 +17,10 @@ if test $CODE -ne 0; then
   echo "assembly artifact id error $CODE!"
   exit $ERROR_CODE_ARTIFACT_ID
 fi
-echo "Artifact id $ARTIFACT_ID"
+echo "Artifact id \"$ARTIFACT_ID\""
 
 SUMMARY="{"
-ARRAY=($BUILD_TYPE)
+ARRAY=($BUILD_TYPES)
 SIZE=${#ARRAY[*]}
 for ((i=0; i<SIZE; i++)); do
   ITEM=${ARRAY[i]}
@@ -29,7 +29,7 @@ for ((i=0; i<SIZE; i++)); do
     echo "version name $ITEM error $CODE!"
     exit $((ERROR_CODE_VERSION_NAME+i))
   fi
-  echo "Version name $ITEM $VERSION_NAME"
+  echo "Version name $ITEM \"$VERSION_NAME\""
   [[ i -gt 0 ]] && SUMMARY="$SUMMARY,"
   SUMMARY="$SUMMARY\"$ITEM\":{"
   SUMMARY="$SUMMARY\"versionName\":\"$(echo "$VERSION_NAME" | base64)\""

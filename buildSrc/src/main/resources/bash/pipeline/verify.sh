@@ -11,6 +11,7 @@ if test $CODE -ne 0; then
   echo "verify test error!"
   exit $ERROR_CODE_TEST
 fi
+echo "verify test success"
 
 ARRAY=(License Readme Service)
 SIZE=${#ARRAY[*]}
@@ -21,6 +22,7 @@ for ((i=0; i<SIZE; i++)); do
    echo "verify $ITEM error!"
    exit $((ERROR_CODE_VERIFY+i))
  fi
+ echo "verify $ITEM success"
 done
 
 # todo documentation
