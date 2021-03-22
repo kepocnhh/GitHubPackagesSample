@@ -43,6 +43,11 @@ setOf(
         "snapshot" -> "$version-SNAPSHOT"
         else -> error("Type \"$type\" not supported!")
     }
+    task("version" + type.capitalize() + "Name") {
+        doLast {
+            println(versionName)
+        }
+    }
     val taskName = "assemble" + type.capitalize()
     task<Jar>(taskName) {
         archiveBaseName.set(buildName)
