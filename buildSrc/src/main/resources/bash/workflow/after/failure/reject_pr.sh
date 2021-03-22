@@ -1,4 +1,6 @@
-echo "reject pr #$PR_NUMBER..."
+#!/bin/bash
+
+echo "reject pr #$PR_NUMBER start..."
 
 if test -z "$github_pat"; then
   echo "GitHub personal access token must be exists!"
