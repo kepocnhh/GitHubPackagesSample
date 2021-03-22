@@ -18,10 +18,10 @@ case "$PR_SOURCE_BRANCH" in
    echo "Pull request to \"$PR_SOURCE_BRANCH\" no op"
    return 0;;
 esac
-VERSION_NAME=$(cat $ASSEMBLY_PATH/summary | jq -r .${BUILD_TYPE}.versionName | base64 -D)
+VERSION_NAME=$(cat $ASSEMBLY_PATH/summary | jq -r .${BUILD_TYPE}.versionName | base64 -d)
 if [[ -z "$VERSION_NAME" ]]; then
  echo "Version name pull request to \"$PR_SOURCE_BRANCH\" error!"
- exit 31
+ return 31
 fi
 
 export TAG_NAME="$VERSION_NAME"

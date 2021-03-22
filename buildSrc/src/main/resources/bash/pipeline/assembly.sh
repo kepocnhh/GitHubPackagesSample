@@ -44,6 +44,7 @@ for ((i=0; i<SIZE; i++)); do
   FILE_NAME=${ARTIFACT_ID}-${VERSION_NAME}.jar
   mv app/build/libs/$FILE_NAME $RESULT_PATH
   SUMMARY="$SUMMARY,\"jar\":\"$(echo "$FILE_NAME" | base64)\""
+  echo "Assemble $RESULT_PATH$FILE_NAME"
   # javadoc
   gradle -q clean app:assemble${ITEM}Javadoc || CODE=$?
   if test $CODE -ne 0; then
@@ -53,6 +54,7 @@ for ((i=0; i<SIZE; i++)); do
   FILE_NAME=${ARTIFACT_ID}-${VERSION_NAME}-javadoc.jar
   mv app/build/libs/$FILE_NAME $RESULT_PATH
   SUMMARY="$SUMMARY,\"javadoc\":\"$(echo "$FILE_NAME" | base64)\""
+  echo "Assemble $RESULT_PATH$FILE_NAME"
   # sources
   gradle -q clean app:assemble${ITEM}Source || CODE=$?
   if test $CODE -ne 0; then
@@ -62,6 +64,7 @@ for ((i=0; i<SIZE; i++)); do
   FILE_NAME=${ARTIFACT_ID}-${VERSION_NAME}-sources.jar
   mv app/build/libs/$FILE_NAME $RESULT_PATH
   SUMMARY="$SUMMARY,\"sources\":\"$(echo "$FILE_NAME" | base64)\""
+  echo "Assemble $RESULT_PATH$FILE_NAME"
   # pom
   gradle -q clean app:assemble${ITEM}Pom || CODE=$?
   if test $CODE -ne 0; then
@@ -71,6 +74,7 @@ for ((i=0; i<SIZE; i++)); do
   FILE_NAME=${ARTIFACT_ID}-${VERSION_NAME}.pom
   mv app/build/libs/$FILE_NAME $RESULT_PATH
   SUMMARY="$SUMMARY,\"pom\":\"$(echo "$FILE_NAME" | base64)\""
+  echo "Assemble $RESULT_PATH$FILE_NAME"
   #
   SUMMARY="$SUMMARY}"
 done

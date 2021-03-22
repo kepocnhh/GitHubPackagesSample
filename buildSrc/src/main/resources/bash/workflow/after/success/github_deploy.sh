@@ -50,7 +50,7 @@ ARRAY=(jar javadoc sources pom)
 SIZE=${#ARRAY[*]}
 for ((i=0; i<SIZE; i++)); do
  ITEM=${ARRAY[i]}
- FILE_NAME=$(cat $ASSEMBLY_PATH/summary | jq -r .${BUILD_TYPE}.${ITEM} | base64 -D)
+ FILE_NAME=$(cat $ASSEMBLY_PATH/summary | jq -r .${BUILD_TYPE}.${ITEM} | base64 -d)
  CODE=$(curl -w %{http_code} -o /dev/null -X POST \
   -s "https://uploads.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/releases/$releaseId/assets?name=$FILE_NAME&label=$FILE_NAME" \
   -H "Content-Type: text/plain" \
