@@ -1,0 +1,36 @@
+name: Pipeline
+
+on:
+  pull_request:
+    types: [opened, reopened]
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    env:
+      GITHUB_OWNER: kepocnhh
+      GITHUB_REPO: GitHubPackagesSample
+      telegram_bot_id: ${{secrets.TELEGRAM_BOT_ID}}
+      telegram_bot_token: ${{secrets.TELEGRAM_BOT_TOKEN}}
+      telegram_chat_id: ${{secrets.TELEGRAM_CHAT_ID_COMMON}}
+      github_pat: ${{secrets.PERSONAL_ACCESS_TOKEN}}
+      RESOURCES_PATH: buildSrc/src/main/resources
+    steps:
+      - id: on_pull_request
+        name: on pull request
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "PR_NUMBER=$(jq -r .pull_request.number $GITHUB_EVENT_PATH)" >> $GITHUB_ENV
+          echo "PR_SOURCE_BRANCH=$(jq -r .pull_request.base.ref $GITHUB_EVENT_PATH)" >> $GITHUB_ENV
+          echo "GIT_SOURCE_BRANCH=$(jq -r .pull_request.head.ref $GITHUB_EVENT_PATH)" >> $GITHUB_ENV
+          echo "GIT_COMMIT_SHA=$(jq -r .pull_request.head.sha $GITHUB_EVENT_PATH)" >> $GITHUB_ENV
+          echo "CI_BUILD_LIGHTWEIGHT=auto" >> $GITHUB_ENV
+      - id: repository_clone
+        name: repository clone
+        run: git clone -q --depth=1 --branch=$GIT_SOURCE_BRANCH https://github.com/$GITHUB_OWNER/$GITHUB_REPO.git repository
+      - id: workflow_main
+        name: workflow main
+        working-directory: repository
+        run: /bin/bash $RESOURCES_PATH/bash/workflow/main.sh
