@@ -68,5 +68,30 @@ setOf(
         archiveClassifier.set("javadoc")
         from(sourceSet("main").allSource)
     }
-    // todo pom
+    task(taskName + "Pom") {
+        doLast {
+            val parent = File(buildDir, "libs")
+            if (!parent.exists()) parent.mkdirs()
+            val file = File(parent, "${Maven.artifactId}-${version}.pom")
+            if (file.exists()) file.delete()
+            file.createNewFile()
+            checkFileExists(file)
+            val url = "https://github.com/kepocnhh/GitHubPackagesSample"
+            val licenseUrl = "https://raw.githubusercontent.com/kepocnhh/GitHubPackagesSample/master/LICENSE"
+            val text = MavenUtil.pom(
+                modelVersion = "4.0.0",
+                groupId = Maven.groupId,
+                artifactId = Maven.artifactId,
+                version = versionName,
+                packaging = "jar",
+                scmUrl = url,
+                licenses = setOf("Apache License, Version 2.0" to licenseUrl),
+                developers = setOf(Maven.developer),
+                name = Maven.artifactId,
+                description = "GitHub Packages sample...",
+                url = url
+            )
+            file.writeText(text)
+        }
+    }
 }
