@@ -13,7 +13,7 @@ if test $CODE -ne 0; then
 fi
 echo "verify test success"
 
-ARRAY=(License Readme Service)
+ARRAY=(License Readme Service TestCoverage)
 SIZE=${#ARRAY[*]}
 for ((i=0; i<SIZE; i++)); do
  ITEM=${ARRAY[i]}
@@ -25,8 +25,8 @@ for ((i=0; i<SIZE; i++)); do
  echo "verify $ITEM success"
 done
 
-# todo documentation
-# todo test coverage
+# todo code style
+# todo documentations
 
 echo "verify success"
 

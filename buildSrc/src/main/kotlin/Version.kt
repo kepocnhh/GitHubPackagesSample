@@ -5,5 +5,5 @@ object Version {
     const val jacoco = "0.8.6"
     const val kotlin = "1.3.72"
 
-    const val name = "0.0.8"
+    const val name = "0.0.9"
 }
