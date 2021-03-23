@@ -24,6 +24,7 @@ val afterProcessResourcesTask = task("afterProcessResources") {
         }
         val text = """
             VERSION $version
+            ARTIFACT_ID ${Maven.artifactId}
         """.trimIndent()
         File(processResourcesTask.destinationDir, "properties").writeText(text)
     }

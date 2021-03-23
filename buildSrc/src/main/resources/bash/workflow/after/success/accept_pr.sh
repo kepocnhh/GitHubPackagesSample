@@ -2,6 +2,8 @@
 
 echo "accept pr #$PR_NUMBER start..."
 
+CODE=0
+
 if test -z $github_pat; then
     echo "GitHub personal access token must be exists!"
     return 1
@@ -14,14 +16,14 @@ json="{\
 \"commit_message\":\"$message\"\
 }"
 
-code=$(curl -w %{http_code} -o /dev/null -X PUT \
+CODE=$(curl -w %{http_code} -o /dev/null -X PUT \
     -s https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/pulls/$PR_NUMBER/merge \
     -H "Authorization: token $github_pat" \
     -d "$json")
 
-if test $code -ne 200; then
+if test $CODE -ne 200; then
     echo "Pull request #$PR_NUMBER accepting error!"
-    echo "Request error with response code $code!"
+    echo "Request error with response code $CODE!"
     return 2
 fi
 
@@ -32,14 +34,14 @@ Successfully accepted by GitHub build \
 [#$GITHUB_RUN_NUMBER](https://github.com/$GITHUB_OWNER/$GITHUB_REPO/actions/runs/$GITHUB_RUN_ID) \
 \"}"
 
-code=$(curl -w %{http_code} -o /dev/null -X POST \
+CODE=$(curl -w %{http_code} -o /dev/null -X POST \
     -s https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/issues/$PR_NUMBER/comments \
     -H "Authorization: token $github_pat" \
     -d "$json")
 
-if test $code -ne 201; then
+if test $CODE -ne 201; then
     echo "Post comment to pr #$PR_NUMBER error!"
-    echo "Request error with response code $code!"
+    echo "Request error with response code $CODE!"
     return 3
 fi
 

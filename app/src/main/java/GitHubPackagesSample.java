@@ -19,9 +19,24 @@ public class GitHubPackagesSample {
     		throw new IllegalStateException("Get version error!", t);
     	}
         if (version == null) throw new IllegalStateException("Version null!");
-        // if (!(version instanceof String)) throw new IllegalStateException("Version is not java.lang.String!");
         result = (String) version;
         if (result.isEmpty()) throw new IllegalStateException("Version is empty!");
+        return result;
+    }
+
+    static public String getArtifactId() {
+        String result;
+        Object actual;
+        try (InputStream inputStream = GitHubPackagesSample.class.getResourceAsStream("/properties")) {
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            actual = properties.get("ARTIFACT_ID");
+        } catch (Throwable t) {
+            throw new IllegalStateException("Get artifact error!", t);
+        }
+        if (actual == null) throw new IllegalStateException("Artifact null!");
+        result = (String) actual;
+        if (result.isEmpty()) throw new IllegalStateException("Artifact is empty!");
         return result;
     }
 

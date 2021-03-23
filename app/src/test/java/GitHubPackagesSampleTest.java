@@ -65,6 +65,48 @@ class GitHubPackagesSampleTest {
     }
 
     @Test
+    public void getArtifactIdTest() {
+        String expected = (String) properties.get("ARTIFACT_ID");
+        String actual = GitHubPackagesSample.getArtifactId();
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void getArtifactIdNoPropertiesTest() {
+        new File(propertiesPath).delete();
+        try {
+            GitHubPackagesSample.getArtifactId();
+        } catch (IllegalStateException e) {
+            return;
+        }
+        Assertions.fail();
+    }
+
+    @Test
+    public void getArtifactIdPropertiesEmptyTest() {
+        writeProperties(new Properties());
+        try {
+            GitHubPackagesSample.getArtifactId();
+        } catch (IllegalStateException e) {
+            return;
+        }
+        Assertions.fail();
+    }
+
+    @Test
+    public void getArtifactIdEmptyTest() {
+        Properties properties = new Properties();
+        properties.setProperty("ARTIFACT_ID", "");
+        writeProperties(properties);
+        try {
+            GitHubPackagesSample.getArtifactId();
+        } catch (IllegalStateException e) {
+            return;
+        }
+        Assertions.fail();
+    }
+
+    @Test
     public void getVersionTest() {
     	String expected = (String) properties.get("VERSION");
         String actual = GitHubPackagesSample.getVersion();

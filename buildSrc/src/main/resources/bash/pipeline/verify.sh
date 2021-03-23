@@ -13,7 +13,7 @@ if test $CODE -ne 0; then
 fi
 echo "verify test success"
 
-ARRAY=(License Readme Service TestCoverage)
+ARRAY=(TestCoverage License Readme Service)
 SIZE=${#ARRAY[*]}
 for ((i=0; i<SIZE; i++)); do
  ITEM=${ARRAY[i]}
