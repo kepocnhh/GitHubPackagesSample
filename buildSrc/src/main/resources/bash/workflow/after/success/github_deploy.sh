@@ -51,16 +51,18 @@ SIZE=${#ARRAY[*]}
 for ((i=0; i<SIZE; i++)); do
  ITEM=${ARRAY[i]}
  FILE_NAME=$(cat $ASSEMBLY_PATH/summary | jq -r .${BUILD_TYPE}.${ITEM} | base64 -d)
+ echo "urpload $ITEM $FILE_NAME start..."
  CODE=$(curl -w %{http_code} -o /dev/null -X POST \
   -s "https://uploads.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/releases/$releaseId/assets?name=$FILE_NAME&label=$FILE_NAME" \
   -H "Content-Type: text/plain" \
   -H "Authorization: token $github_pat" \
   --data-binary @$ASSEMBLY_PATH/build/$BUILD_TYPE/$FILE_NAME)
- if test $CODE -ne 0; then
+ if test $CODE -ne 201; then
    echo "upload $ITEM error!"
    echo "Request error with response code $CODE!"
    exit $((ERROR_CODE_UPLOAD+i))
  fi
+ echo "urpload $ITEM $FILE_NAME success"
 done
 
 echo "github deploy success"

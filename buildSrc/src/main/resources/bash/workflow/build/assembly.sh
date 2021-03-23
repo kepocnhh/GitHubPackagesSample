@@ -17,7 +17,7 @@ for ((i = 0; i < SIZE; i++)); do
   fi
 done
 
-echo "${ASSEMBLY_PATH}: $(ls $ASSEMBLY_PATH)"
+echo ${ASSEMBLY_PATH}: $(ls $ASSEMBLY_PATH)
 
 echo "assembly success"
 

@@ -10,17 +10,18 @@ import java.util.Properties;
 public class GitHubPackagesSample {
     static public String getVersion() {
     	String result;
+        Object version;
     	try (InputStream inputStream = GitHubPackagesSample.class.getResourceAsStream("/properties")) {
 	        Properties properties = new Properties();
 	        properties.load(inputStream);
-	        Object version = properties.get("VERSION");
-	        if (version == null) throw new IllegalStateException("Version null!");
-	        if (!(version instanceof String)) throw new IllegalStateException("Version is not java.lang.String!");
-	        result = (String) version;
-	        if (result.isEmpty()) throw new IllegalStateException("Version is empty!");
+	        version = properties.get("VERSION");
     	} catch (Throwable t) {
     		throw new IllegalStateException("Get version error!", t);
     	}
+        if (version == null) throw new IllegalStateException("Version null!");
+        // if (!(version instanceof String)) throw new IllegalStateException("Version is not java.lang.String!");
+        result = (String) version;
+        if (result.isEmpty()) throw new IllegalStateException("Version is empty!");
         return result;
     }
 

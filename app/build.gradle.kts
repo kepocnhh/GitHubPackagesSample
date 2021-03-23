@@ -31,6 +31,37 @@ val afterProcessResourcesTask = task("afterProcessResources") {
 
 processResourcesTask.finalizedBy(afterProcessResourcesTask)
 
+val testTask = tasks.getByName("test")
+val testCoverageReportPath = "$buildDir/report/test/coverage"
+val collectTestCoverageReportTask = task<JacocoReport>("collectTestCoverageReport") {
+    dependsOn(testTask)
+    executionData(testTask)
+    sourceSets(sourceSet("main"))
+
+    reports {
+        xml.isEnabled = false // todo
+        // xml.isEnabled = true
+        // xml.destination = File("$testCoverageReportPath/${project.name}/xml/report.xml")
+        html.isEnabled = true
+        html.destination = File("$testCoverageReportPath/html")
+        csv.isEnabled = false
+    }
+}
+
+task<JacocoCoverageVerification>("verifyTestCoverage") {
+    dependsOn(collectTestCoverageReportTask)
+    executionData(testTask)
+    sourceSets(sourceSet("main"))
+
+    violationRules {
+        rule {
+            limit {
+                minimum = BigDecimal(1.0)
+            }
+        }
+    }
+}
+
 setOf(
     "debug",
     "release",
