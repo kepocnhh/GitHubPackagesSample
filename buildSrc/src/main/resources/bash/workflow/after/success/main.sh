@@ -39,6 +39,12 @@ if test $CODE -ne 0; then
   return 23
 fi
 
+. $WORKFLOW/after/success/maven_deploy.sh; CODE=$?
+if test $CODE -ne 0; then
+  echo "after success maven deploy error $CODE!"
+  return 24
+fi
+
 . $WORKFLOW/after/success/accept_pr.sh; CODE=$?
 if test $CODE -ne 0; then
   echo "after success accept pr error $CODE!"

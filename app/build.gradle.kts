@@ -68,7 +68,6 @@ setOf(
     "release",
     "snapshot"
 ).forEach { type ->
-    val buildName = "GitHubPackagesSample"
     val versionName = when (type) {
         "debug" -> "$version-$type"
         "release" -> version.toString()
@@ -82,11 +81,11 @@ setOf(
     }
     val taskName = "assemble" + type.capitalize()
     task<Jar>(taskName) {
-        archiveBaseName.set(buildName)
+        archiveBaseName.set(Maven.artifactId)
         archiveVersion.set(versionName)
     }
     task<Jar>(taskName + "Source") {
-        archiveBaseName.set(buildName)
+        archiveBaseName.set(Maven.artifactId)
         archiveVersion.set(versionName)
         archiveClassifier.set("sources")
         from(sourceSet("main").allSource)
@@ -95,7 +94,7 @@ setOf(
         source = sourceSet("main").allJava
     }
     task<Jar>(taskName + "Javadoc") {
-        archiveBaseName.set(buildName)
+        archiveBaseName.set(Maven.artifactId)
         archiveVersion.set(versionName)
         archiveClassifier.set("javadoc")
         from(sourceSet("main").allSource)
