@@ -3,6 +3,7 @@
 echo "github deploy start..."
 
 ERROR_CODE_UPLOAD=100
+CODE=0
 
 if test -z $github_pat; then
     echo "GitHub personal access token must be exists!"
@@ -33,13 +34,13 @@ json="{\
 }"
 
 rm -f file
-code=$(curl -w %{http_code} -o file -X POST \
+CODE=$(curl -w %{http_code} -o file -X POST \
     -s https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/releases \
     -H "Authorization: token $github_pat" \
     -d "$json")
-if test $code -ne 201; then
+if test $CODE -ne 201; then
     echo "Create $TAG_NAME release error!"
-    echo "Request error with response code $code!"
+    echo "Request error with response code $CODE!"
     return 21
 fi
 body=$(<file); rm file
@@ -60,9 +61,9 @@ for ((i=0; i<SIZE; i++)); do
  if test $CODE -ne 201; then
    echo "upload $ITEM error!"
    echo "Request error with response code $CODE!"
-   exit $((ERROR_CODE_UPLOAD+i))
+   return $((ERROR_CODE_UPLOAD+i))
  fi
- echo "urpload $ITEM $FILE_NAME success"
+ echo "upload $ITEM $FILE_NAME success"
 done
 
 echo "github deploy success"
